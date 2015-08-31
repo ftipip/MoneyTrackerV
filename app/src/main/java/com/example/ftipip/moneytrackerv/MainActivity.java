@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
-    private Button buttonFirstFragment;
+
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -18,14 +18,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonFirstFragment = (Button) findViewById(R.id.button_first);
-
-        buttonFirstFragment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ExpensesFragment()).commit();
-            }
-        });
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ExpensesFragment()).commit();}
 
         Log.d(LOG_TAG, "onCreate");
     }
