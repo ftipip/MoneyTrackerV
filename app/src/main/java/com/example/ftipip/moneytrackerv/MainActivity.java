@@ -9,8 +9,6 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
-
-
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
