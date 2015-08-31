@@ -3,20 +3,13 @@ package com.example.ftipip.moneytrackerv;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private ListView listView;
-    private List<Transaction> data = new ArrayList<>();
-    private TransactionAdapter transactionAdapter;
+    private Button buttonFirstFragment;
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -25,20 +18,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(R.id.main_listview);
-        List<Transaction> adapterData = getDataList();
-        transactionAdapter = new TransactionAdapter(this, adapterData);
-        listView.setAdapter(transactionAdapter);
+        buttonFirstFragment = (Button) findViewById(R.id.button_first);
+
+        buttonFirstFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ExpensesFragment()).commit();
+            }
+        });
 
         Log.d(LOG_TAG, "onCreate");
     }
 
-    private  List<Transaction> getDataList() {
-        data.add(new Transaction("Phone", 2000, String.valueOf(new Date())));
-        data.add(new Transaction("Phone", 3000, String.valueOf(new Date())));
-
-        return data;
-    }
 
     @Override
     protected void onResume() {
