@@ -5,20 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:id="@+id/drawer_layout">
+    android:id="@+id/drawer_layout"
+    tools:context=".MainActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        style="@style/Container.Background">
 
-        <include layout="@layout/toolbar"/>
+        <include layout="@layout/toolbar"
+            android:id="@+id/toolbar"/>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/frame_container"
             android:layout_below="@+id/toolbar">
-
         </FrameLayout>
 
     </RelativeLayout>
@@ -27,6 +29,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:id="@+id/navigation_view"
+        app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_menu"/>
 
 </android.support.v4.widget.DrawerLayout>

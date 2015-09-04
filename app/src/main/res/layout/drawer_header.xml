@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/drawer_header_height"
+    android:paddingTop="@dimen/drawer_padding_top"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:background="@drawable/drawer_patt">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/profile_img"
+        app:border_width="2dp"
+        app:border_color="#FF000000"/>
+
+    <TextView
+        style="@style/DrawerText"
+        android:id="@+id/drawer_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_image"
+        android:text="Semen Grigorev"
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp"/>
+
+    <TextView
+        style="@style/DrawerText"
+        android:id="@+id/drawer_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ftip@list.ru"
+        android:layout_below="@id/drawer_username"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"/>
+
+
+</RelativeLayout>

@@ -32,14 +32,14 @@ public class ExpensesFragment extends Fragment {
         List<Transaction> adapterData = getDataList();
         transactionAdapter = new TransactionAdapter(getActivity(), adapterData);
         listView.setAdapter(transactionAdapter);
-        getActivity().setTitle("Phone List Fragment");
-
+        getActivity().setTitle(R.string.nav_drawer_expenses);
         return view;
     }
 
-    private  List<Transaction> getDataList() {
+    private List<Transaction> getDataList() {
         data.add(new Transaction("Phone", 2000, String.valueOf(new Date())));
-        data.add(new Transaction("Phone", 3000, String.valueOf(new Date())));
+        data.add(new Transaction("Car", 3000, String.valueOf(new Date())));
+        data.add(new Transaction("House", 4000, String.valueOf(new Date())));
 
         return data;
     }
