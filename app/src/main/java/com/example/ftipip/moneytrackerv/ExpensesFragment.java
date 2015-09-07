@@ -2,44 +2,88 @@ package com.example.ftipip.moneytrackerv;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by ftipip on 31.08.2015.
- */
 public class ExpensesFragment extends Fragment {
 
-    private ListView listView;
-    private List<Transaction> data = new ArrayList<>();
-    private TransactionAdapter transactionAdapter;
+    private ExpensesAdapter expensesAdapter;
+    private RecyclerView recyclerView;
+    private FloatingActionButton floatingActionButton;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.expenses_fragment, container, false);
-
-        listView = (ListView) view.findViewById(R.id.main_listview);
-        List<Transaction> adapterData = getDataList();
-        transactionAdapter = new TransactionAdapter(getActivity(), adapterData);
-        listView.setAdapter(transactionAdapter);
         getActivity().setTitle(R.string.nav_drawer_expenses);
+        final View view = inflater.inflate(R.layout.expenses_fragment, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_content);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), 1, false);
+        List<Expense> adapterData = getDataList();
+        expensesAdapter = new ExpensesAdapter(adapterData);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(expensesAdapter);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(recyclerView, "pressed", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+        Bundle args = getArguments();
+        if (args != null){
+            Boolean showSnackbar = args.getBoolean("showSnackbar");
+            if (showSnackbar){
+                Snackbar.make(recyclerView, getActivity().getTitle() + " selected", Snackbar.LENGTH_SHORT).show();
+            }
+            args.clear();
+        }
         return view;
     }
 
-    private List<Transaction> getDataList() {
-        data.add(new Transaction("Phone", 2000, String.valueOf(new Date())));
-        data.add(new Transaction("Car", 3000, String.valueOf(new Date())));
-        data.add(new Transaction("House", 4000, String.valueOf(new Date())));
+    private List<Expense> getDataList(){
+        List<Expense> data = new ArrayList<>();
+
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
+        data.add(new Expense("Phone", 2000, String.valueOf(new Date())));
+        data.add(new Expense("Car", 3000, String.valueOf(new Date())));
+        data.add(new Expense("House", 4000, String.valueOf(new Date())));
 
         return data;
     }
