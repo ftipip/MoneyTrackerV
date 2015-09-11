@@ -3,4 +3,11 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="nav.drawer.expenses">Траты</string>
+    <string name="nav.drawer.categories">Категории</string>
+    <string name="nav.drawer.statistics">Статистика</string>
+    <string name="nav.drawer.settings">Настройки</string>
+    <string name="title_add_expence_activity">Добавить трату</string>
+
 </resources>
