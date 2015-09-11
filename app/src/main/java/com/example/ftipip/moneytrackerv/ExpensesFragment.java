@@ -1,6 +1,7 @@
 package com.example.ftipip.moneytrackerv;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -37,6 +38,8 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Snackbar.make(recyclerView, "pressed", Snackbar.LENGTH_SHORT).show();
+                Intent openActivityIntent = new Intent(getActivity(),AddExpenceActivity_.class);
+                getActivity().startActivity(openActivityIntent);
             }
         });
 

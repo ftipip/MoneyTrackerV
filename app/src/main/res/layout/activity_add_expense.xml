@@ -8,8 +8,11 @@
     <include layout="@layout/toolbar"></include>
 
     <GridLayout
+        android:id="@+id/expense_add"
+        android:layout_gravity="start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bgmain"
         android:columnCount="2"
         android:rowCount="4"
         android:padding="@dimen/medium_padding">
@@ -30,6 +33,16 @@
             android:layout_gravity="fill"
             android:gravity="start|center"
             android:text="Примечание"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill"
+            android:gravity="start|center"
+            android:text="Категория"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

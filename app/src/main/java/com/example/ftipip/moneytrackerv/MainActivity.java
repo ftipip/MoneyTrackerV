@@ -13,46 +13,58 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
+@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "MMainActivity";
-    private View container;
-    private DrawerLayout drawerLayout;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    @ViewById(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
-        container = (View) findViewById(R.id.frame_container);
+    @ViewById(R.id.frame_container)
+    View container;
 
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ExpensesFragment()).commit();}*/
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
 
-        Log.d(LOG_TAG, "onCreate");
+    @ViewById(R.id.navigation_view)
+    NavigationView navigationView;
 
+
+    @AfterViews
+    void ready() {
         initToolbar();
         setNavigationDrawer();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ExpensesFragment()).commit();}
+    }
+
     private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
+            //actionBar.setHomeAsUpIndicator();
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
     private void setNavigationDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener((new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
                 getFragment(menuItem);
                 //Snackbar.make(container, menuItem.getTitle() + " pressed", Snackbar.LENGTH_SHORT).show();
                 return false;
@@ -63,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private void getFragment(MenuItem menuItem) {
         Fragment fragment;
 
-        switch (menuItem.getItemId()) {
+        switch (menuItem.getItemId()){
             case R.id.drawer_expenses:
                 fragment = new ExpensesFragment();
                 break;
