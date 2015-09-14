@@ -38,7 +38,7 @@ public class ExpensesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Snackbar.make(recyclerView, "pressed", Snackbar.LENGTH_SHORT).show();
-                Intent openActivityIntent = new Intent(getActivity(),AddExpenceActivity_.class);
+                Intent openActivityIntent = new Intent(getActivity(),AddExpenseActivity_.class);
                 getActivity().startActivity(openActivityIntent);
             }
         });
