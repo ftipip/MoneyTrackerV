@@ -1,44 +1,102 @@
 package com.example.ftipip.moneytrackerv;
 
-import android.support.v7.app.ActionBarActivity;
+
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+@EActivity(R.layout.activity_main)
+public class MainActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = "MMainActivity";
+
+    @ViewById(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @ViewById(R.id.frame_container)
+    View container;
+
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
+
+    @ViewById(R.id.navigation_view)
+    NavigationView navigationView;
 
 
-public class MainActivity extends ActionBarActivity {
-
-    private ListView listView;
-    private List<Transaction> data = new ArrayList<>();
-    private TransactionAdapter transactionAdapter;
-
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    @AfterViews
+    void ready() {
+        initToolbar();
+        setNavigationDrawer();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(R.id.main_listview);
-        List<Transaction> adapterData = getDataList();
-        transactionAdapter = new TransactionAdapter(this, adapterData);
-        listView.setAdapter(transactionAdapter);
-
-        Log.d(LOG_TAG, "onCreate");
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, new ExpensesFragment()).commit();}
     }
 
-    private  List<Transaction> getDataList() {
-        data.add(new Transaction("Phone", 2000, String.valueOf(new Date())));
-        data.add(new Transaction("Phone", 3000, String.valueOf(new Date())));
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
 
-        return data;
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            //actionBar.setHomeAsUpIndicator();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
+
+    private void setNavigationDrawer() {
+        navigationView.setNavigationItemSelectedListener((new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                getFragment(menuItem);
+                //Snackbar.make(container, menuItem.getTitle() + " pressed", Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+        }));
+    }
+
+    private void getFragment(MenuItem menuItem) {
+        Fragment fragment;
+
+        switch (menuItem.getItemId()){
+            case R.id.drawer_expenses:
+                fragment = new ExpensesFragment();
+                break;
+            case R.id.drawer_categories:
+                fragment = new CategoriesFragment();
+                break;
+            case R.id.drawer_statistics:
+                fragment = new StatisticsFragment();
+                break;
+            case R.id.drawer_settings:
+                fragment = new SettingsFragment();
+                break;
+            default:
+                fragment = new ExpensesFragment();
+        }
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+        menuItem.setChecked(true);
+        drawerLayout.closeDrawers();
+    }
+
 
     @Override
     protected void onResume() {
