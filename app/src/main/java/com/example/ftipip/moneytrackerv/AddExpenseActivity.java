@@ -16,7 +16,12 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
 
+import com.activeandroid.query.Select;
+import com.example.ftipip.moneytrackerv.database.models.Categories;
 import com.example.ftipip.moneytrackerv.database.models.Expenses;
+
+import java.util.Date;
+import java.util.List;
 
 @EActivity(R.layout.activity_add_expense)
 public class AddExpenseActivity extends AppCompatActivity {
@@ -33,8 +38,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     @StringRes(R.string.title_add_expence_activity)
     String title;
 
-    private String[] data = {"Fun", "Social", "Food", "Clothes"};
-
     @OptionsItem(android.R.id.home)
     void back() {
         onBackPressed();
@@ -46,7 +49,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(title);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data);
+        ArrayAdapter<Categories> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getCategoriesList());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategories.setAdapter(adapter);
 
@@ -66,32 +69,24 @@ public class AddExpenseActivity extends AppCompatActivity {
     @Click(R.id.add_expense_button)
     public void addExpenseButton() {
 
-        if(!inputValidation()) {
+        if (etPrice.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Введите сумму", Toast.LENGTH_SHORT).show();
             return;
-        } else {
-            Expenses expenses = new Expenses();
-            expenses.setPrice(etPrice.getText().toString());
-            expenses.setName(etName.getText().toString());
-            expenses.insert();
-
-            Toast.makeText(this, " " + etPrice.getText().toString() + ", "
-                    + etName.getText().toString(), Toast.LENGTH_SHORT).show();
         }
+        if (etName.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Введите название", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(this, " " + etPrice.getText().toString() + ", "
+                + etName.getText().toString(), Toast.LENGTH_SHORT).show();
+
+        new Expenses(etName.getText().toString(), etPrice.getText().toString(), String.valueOf(new Date()), (Categories) spCategories.getSelectedItem()).save();
+
     }
 
-    private boolean inputValidation() {
-
-        boolean isValid = true;
-
-        if (etPrice.getText().toString().trim().length() == 0) {
-            isValid = false;
-        } else if (!etPrice.getText().toString().matches("[0-9]+")) {
-            isValid = false;
-        }
-        if(etName.getText().toString().trim().length() == 0) {
-            isValid = false;
-        }
-
-        return isValid;
+    private List<Categories> getCategoriesList() {
+        return new Select().from(Categories.class).execute();
     }
 }
+

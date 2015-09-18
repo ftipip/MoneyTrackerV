@@ -3,60 +3,33 @@ package com.example.ftipip.moneytrackerv.database.models;
 /**
  * Created by ftipip on 11.09.2015.
  */
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ModelContainer;
-import com.raizlabs.android.dbflow.annotation.OneToMany;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.builder.Condition;
-import com.raizlabs.android.dbflow.sql.language.Select;
-import com.raizlabs.android.dbflow.structure.BaseModel;
-
-
-import com.example.ftipip.moneytrackerv.database.AppDataBase;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
 import java.util.List;
 
-@ModelContainer
-@Table(databaseName = AppDataBase.NAME)
-public class Categories extends BaseModel {
+@Table(name = "Categories")
+public class Categories extends Model {
 
-    @Column
-    @PrimaryKey(autoincrement = true)
-    private int id;
-
-    @Column
-    private String name;
-
-    List<Expenses> expenses;
-
-    @OneToMany(methods = {OneToMany.Method.SAVE, OneToMany.Method.DELETE}, variableName = "expenses")
-    public List<Expenses> getMyExpenses(){
-        if(expenses == null) {
-            expenses = new Select().from(Expenses.class)
-                    .where(Condition.column(Expenses$Table.CATEGORIESMODELCONTAINER_CATEGORY_ID).is(id))
-                    .queryList();
-        }
-
-        return expenses;
-    }
+    @Column(name = "Name")
+    public String name;
 
     public Categories() {
+        super();
     }
 
-    public int getId() {
-        return id;
+    public Categories(String name) {
+        super();
+        this.name = name;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
+    @Override
+    public String toString() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public List<Expenses> expenses(){
+        return getMany(Expenses.class, "Categories");
     }
 }

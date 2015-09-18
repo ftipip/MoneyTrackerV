@@ -3,66 +3,34 @@ package com.example.ftipip.moneytrackerv.database.models;
 /**
  * Created by ftipip on 11.09.2015.
  */
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
-import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
-import com.example.ftipip.moneytrackerv.database.AppDataBase;
+@Table(name = "Expenses")
+public class Expenses extends Model {
 
-@Table(databaseName = AppDataBase.NAME)
-public class Expenses extends BaseModel {
+    @Column(name = "Name")
+    public String name;
 
-    @Column
-    @PrimaryKey(autoincrement = true)
-    private int id;
+    @Column(name = "Price")
+    public String price;
 
-    @Column
-    private String price;
+    @Column(name = "Date")
+    public String date;
 
-    @Column
-    private String name;
-
-    @Column
-    @ForeignKey(
-            references = {@ForeignKeyReference( columnName = "category_id",
-                    columnType = Integer.class,
-                    foreignColumnName = "id")},
-            saveForeignKeyModel = false)
-    ForeignKeyContainer<Categories> categoriesModelContainer;
+    @Column(name = "Category")
+    public Categories categories;
 
     public Expenses() {
+        super();
     }
 
-    public void associateCategory(Categories categories){
-        categoriesModelContainer = new ForeignKeyContainer<Categories>(Categories.class);
-        categoriesModelContainer.setModel(categories);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Expenses(String name, String price, String date, Categories categories) {
+        super();
         this.name = name;
+        this.price = price;
+        this.date = date;
+        this.categories = categories;
     }
 }
